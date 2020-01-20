@@ -14,9 +14,6 @@ namespace Doggo_Capstone_backEnd.Models
     public int EnergyLevelId { get; set; }
     public EnergyLevel EnergyLevel { get; set; }
 
-    // public int GenderId {get;set; }
-    // public Gender Gender {get; set;}
-
 
   }
 }
