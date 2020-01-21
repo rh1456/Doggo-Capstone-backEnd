@@ -18,5 +18,7 @@ namespace Doggo_Capstone_backEnd.Models
     public int GenderId { get; set; }
     public Gender Gender { get; set; }
 
+    public List<InterestedEnergyLevel> InterestedEnergyLevels { get; set; } = new List<InterestedEnergyLevel>();
+
   }
 }
