@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DoggoCapstonebackEnd.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200120225003_AddedTables")]
+    [Migration("20200121191818_AddedTables")]
     partial class AddedTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
