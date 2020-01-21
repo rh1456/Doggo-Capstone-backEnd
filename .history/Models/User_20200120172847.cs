@@ -1,6 +1,10 @@
-namespace Doggo_Capstone_backEnd.ViewModels
+using System.Collections.Generic;
+using Newtonsoft.Json;
+
+namespace Doggo_Capstone_backEnd.Models
+
 {
-  public class CreatedUser
+  public class User
   {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -8,7 +12,11 @@ namespace Doggo_Capstone_backEnd.ViewModels
     public string About { get; set; }
     public string Size { get; set; }
     public int EnergyLevelId { get; set; }
+    public EnergyLevel EnergyLevel { get; set; }
+
     public int GenderId { get; set; }
+    public Gender Gender { get; set; }
+
 
   }
 }

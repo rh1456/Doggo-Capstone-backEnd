@@ -96,11 +96,7 @@ namespace Doggo_Capstone_backEnd.Controllers
       var db = new DatabaseContext();
       var energyLevel = db.EnergyLevels.FirstOrDefault(energyLevel => energyLevel.Id == vm.EnergyLevelId);
       var gender = db.Genders.FirstOrDefault(gender => gender.Id == vm.GenderId);
-      if (energyLevel == null)
-      {
-        return NotFound();
-      }
-      else if (gender == null)
+      if (energyLevel && gender == null)
       {
         return NotFound();
       }

@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DoggoCapstonebackEnd.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200119024554_AddedTables")]
+    [Migration("20200120225003_AddedTables")]
     partial class AddedTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,21 @@ namespace DoggoCapstonebackEnd.Migrations
                     b.ToTable("EnergyLevels");
                 });
 
+            modelBuilder.Entity("Doggo_Capstone_backEnd.Models.Gender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Sex")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Genders");
+                });
+
             modelBuilder.Entity("Doggo_Capstone_backEnd.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -51,6 +66,9 @@ namespace DoggoCapstonebackEnd.Migrations
                     b.Property<int>("EnergyLevelId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("GenderId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -61,6 +79,8 @@ namespace DoggoCapstonebackEnd.Migrations
 
                     b.HasIndex("EnergyLevelId");
 
+                    b.HasIndex("GenderId");
+
                     b.ToTable("Users");
                 });
 
@@ -69,6 +89,12 @@ namespace DoggoCapstonebackEnd.Migrations
                     b.HasOne("Doggo_Capstone_backEnd.Models.EnergyLevel", "EnergyLevel")
                         .WithMany("Users")
                         .HasForeignKey("EnergyLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Doggo_Capstone_backEnd.Models.Gender", "Gender")
+                        .WithMany("Users")
+                        .HasForeignKey("GenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

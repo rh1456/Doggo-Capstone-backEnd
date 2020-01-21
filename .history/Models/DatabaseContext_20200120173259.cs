@@ -10,6 +10,8 @@ namespace Doggo_Capstone_backEnd.Models
     public DbSet<User> Users { get; set; }
     public DbSet<EnergyLevel> EnergyLevels { get; set; }
     public DbSet<Gender> Genders { get; set; }
+    // public DbSet<InterestedEnergyLevel> InterestedEnergyLevels { get; set; }
+    // public DbSet<Gender> Genders { get; set; }
 
 
 

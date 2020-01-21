@@ -36,7 +36,7 @@ namespace Doggo_Capstone_backEnd.Controllers
         About = user.About,
         Size = user.Size,
         Level = user.EnergyLevel.Level,
-        Sex = user.Gender.Sex
+
       });
       return Ok(rv);
     }
@@ -95,12 +95,7 @@ namespace Doggo_Capstone_backEnd.Controllers
     {
       var db = new DatabaseContext();
       var energyLevel = db.EnergyLevels.FirstOrDefault(energyLevel => energyLevel.Id == vm.EnergyLevelId);
-      var gender = db.Genders.FirstOrDefault(gender => gender.Id == vm.GenderId);
       if (energyLevel == null)
-      {
-        return NotFound();
-      }
-      else if (gender == null)
       {
         return NotFound();
       }
