@@ -34,6 +34,26 @@ namespace DoggoCapstonebackEnd.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InterestedEnergyLevels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    InterestedIn = table.Column<string>(nullable: true),
+                    EnergyLevelId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InterestedEnergyLevels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InterestedEnergyLevels_EnergyLevels_EnergyLevelId",
+                        column: x => x.EnergyLevelId,
+                        principalTable: "EnergyLevels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -44,7 +64,8 @@ namespace DoggoCapstonebackEnd.Migrations
                     About = table.Column<string>(nullable: true),
                     Size = table.Column<string>(nullable: true),
                     EnergyLevelId = table.Column<int>(nullable: false),
-                    GenderId = table.Column<int>(nullable: false)
+                    GenderId = table.Column<int>(nullable: false),
+                    InterestedEnergyLevelId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -61,7 +82,18 @@ namespace DoggoCapstonebackEnd.Migrations
                         principalTable: "Genders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Users_InterestedEnergyLevels_InterestedEnergyLevelId",
+                        column: x => x.InterestedEnergyLevelId,
+                        principalTable: "InterestedEnergyLevels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_InterestedEnergyLevels_EnergyLevelId",
+                table: "InterestedEnergyLevels",
+                column: "EnergyLevelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_EnergyLevelId",
@@ -72,6 +104,11 @@ namespace DoggoCapstonebackEnd.Migrations
                 name: "IX_Users_GenderId",
                 table: "Users",
                 column: "GenderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_InterestedEnergyLevelId",
+                table: "Users",
+                column: "InterestedEnergyLevelId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -80,10 +117,13 @@ namespace DoggoCapstonebackEnd.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "EnergyLevels");
+                name: "Genders");
 
             migrationBuilder.DropTable(
-                name: "Genders");
+                name: "InterestedEnergyLevels");
+
+            migrationBuilder.DropTable(
+                name: "EnergyLevels");
         }
     }
 }

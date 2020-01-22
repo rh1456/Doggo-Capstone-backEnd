@@ -27,7 +27,7 @@ namespace Doggo_Capstone_backEnd.Controllers
     public async Task<ActionResult<IEnumerable<User>>> GetUsers()
     {
       var db = new DatabaseContext();
-      var userResults = db.Users.Include(i => i.EnergyLevel).Include(i => i.Gender);
+      var userResults = db.Users.Include(i => i.EnergyLevel).Include(i => i.Gender).Include(i => i.InterestedEnergyLevel);
       var rv = userResults.Select(user => new UserItem
       {
         Id = user.Id,
@@ -36,7 +36,8 @@ namespace Doggo_Capstone_backEnd.Controllers
         About = user.About,
         Size = user.Size,
         Level = user.EnergyLevel.Level,
-        Sex = user.Gender.Sex
+        Sex = user.Gender.Sex,
+        InterestedIn = user.InterestedEnergyLevel.InterestedIn
       });
       return Ok(rv);
     }
@@ -45,15 +46,24 @@ namespace Doggo_Capstone_backEnd.Controllers
     [HttpGet("{id}")]
     public async Task<ActionResult<User>> GetUser(int id)
     {
-      var user = await _context.Users.FindAsync(id);
-
-      if (user == null)
+      var db = new DatabaseContext();
+      var userResults = db.Users.Include(i => i.EnergyLevel).Include(i => i.Gender).Include(i => i.InterestedEnergyLevel).FirstOrDefault(f => f.Id == id);
+      var rv = new UserItem
       {
-        return NotFound();
-      }
-
-      return user;
+        Id = userResults.Id,
+        About = userResults.About,
+        Name = userResults.Breed,
+        Size = userResults.Size,
+        Level = userResults.EnergyLevel.Level,
+        Sex = userResults.Gender.Sex,
+        InterestedIn = userResults.InterestedEnergyLevel.InterestedIn
+      };
+      return Ok(rv);
     }
+
+
+
+
 
     // PUT: api/User/5
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for
@@ -96,11 +106,16 @@ namespace Doggo_Capstone_backEnd.Controllers
       var db = new DatabaseContext();
       var energyLevel = db.EnergyLevels.FirstOrDefault(energyLevel => energyLevel.Id == vm.EnergyLevelId);
       var gender = db.Genders.FirstOrDefault(gender => gender.Id == vm.GenderId);
+      var interest = db.InterestedEnergyLevels.FirstOrDefault(interest => interest.Id == vm.InterestedEnergyLevelId);
       if (energyLevel == null)
       {
         return NotFound();
       }
       else if (gender == null)
+      {
+        return NotFound();
+      }
+      else if (interest == null)
       {
         return NotFound();
       }
@@ -113,7 +128,8 @@ namespace Doggo_Capstone_backEnd.Controllers
           About = vm.About,
           Size = vm.Size,
           EnergyLevelId = vm.EnergyLevelId,
-          GenderId = vm.GenderId
+          GenderId = vm.GenderId,
+          InterestedEnergyLevelId = vm.InterestedEnergyLevelId
         };
         db.Users.Add(user);
         db.SaveChanges();
@@ -125,7 +141,8 @@ namespace Doggo_Capstone_backEnd.Controllers
           About = user.About,
           Size = user.Size,
           EnergyLevelId = user.EnergyLevelId,
-          GenderId = user.GenderId
+          GenderId = user.GenderId,
+          InterestedEnergyLevelId = user.InterestedEnergyLevelId
         };
         return Ok(rv);
       }

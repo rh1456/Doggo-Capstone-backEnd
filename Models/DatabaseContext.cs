@@ -12,6 +12,8 @@ namespace Doggo_Capstone_backEnd.Models
     public DbSet<EnergyLevel> EnergyLevels { get; set; }
     public DbSet<Gender> Genders { get; set; }
 
+    public DbSet<InterestedEnergyLevel> InterestedEnergyLevels { get; set; }
+
     private string ConvertPostConnectionToConnectionString(string connection)
     {
       var _connection = connection.Replace("postgres://", String.Empty);

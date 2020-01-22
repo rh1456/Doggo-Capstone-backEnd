@@ -11,6 +11,7 @@ namespace Doggo_Capstone_backEnd.ViewModels
     public string Size { get; set; }
     public string Sex { get; set; }
     public string Level { get; set; }
+    public string InterestedIn { get; set; }
 
   }
 }

@@ -9,7 +9,7 @@ namespace Doggo_Capstone_backEnd.ViewModels
     public string Size { get; set; }
     public int EnergyLevelId { get; set; }
     public int GenderId { get; set; }
-
+    public int InterestedEnergyLevelId { get; set; }
 
   }
 }

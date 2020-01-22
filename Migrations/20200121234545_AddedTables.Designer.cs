@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DoggoCapstonebackEnd.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20200121191818_AddedTables")]
+    [Migration("20200121234545_AddedTables")]
     partial class AddedTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,26 @@ namespace DoggoCapstonebackEnd.Migrations
                     b.ToTable("Genders");
                 });
 
+            modelBuilder.Entity("Doggo_Capstone_backEnd.Models.InterestedEnergyLevel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int>("EnergyLevelId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("InterestedIn")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EnergyLevelId");
+
+                    b.ToTable("InterestedEnergyLevels");
+                });
+
             modelBuilder.Entity("Doggo_Capstone_backEnd.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -69,6 +89,9 @@ namespace DoggoCapstonebackEnd.Migrations
                     b.Property<int>("GenderId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("InterestedEnergyLevelId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -81,7 +104,18 @@ namespace DoggoCapstonebackEnd.Migrations
 
                     b.HasIndex("GenderId");
 
+                    b.HasIndex("InterestedEnergyLevelId");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Doggo_Capstone_backEnd.Models.InterestedEnergyLevel", b =>
+                {
+                    b.HasOne("Doggo_Capstone_backEnd.Models.EnergyLevel", "EnergyLevel")
+                        .WithMany()
+                        .HasForeignKey("EnergyLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Doggo_Capstone_backEnd.Models.User", b =>
@@ -95,6 +129,12 @@ namespace DoggoCapstonebackEnd.Migrations
                     b.HasOne("Doggo_Capstone_backEnd.Models.Gender", "Gender")
                         .WithMany("Users")
                         .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Doggo_Capstone_backEnd.Models.InterestedEnergyLevel", "InterestedEnergyLevel")
+                        .WithMany("Users")
+                        .HasForeignKey("InterestedEnergyLevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
