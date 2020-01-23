@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Doggo_Capstone_backEnd.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Doggo_Capstone_backEnd
 {
@@ -34,8 +37,22 @@ namespace Doggo_Capstone_backEnd
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
       });
       services.AddDbContext<DatabaseContext>();
-    }
 
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                  .AddJwtBearer(options =>
+                  {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                      ValidateIssuer = false,
+                      ValidateAudience = false,
+                      ValidateLifetime = true,
+                      ValidateIssuerSigningKey = true,
+
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["JWT-KEY"]))
+                    };
+                  });
+
+    }
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
@@ -63,6 +80,7 @@ namespace Doggo_Capstone_backEnd
       app.UseRouting();
 
       app.UseAuthorization();
+      app.UseAuthentication();
 
       app.UseEndpoints(endpoints =>
       {

@@ -22,16 +22,12 @@ namespace Doggo_Capstone_backEnd.Controllers
       _context = context;
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<User>> GetShyMatches(int id, int EnergyLevelId)
+    [HttpGet("{energyLevelId}")]
+    public async Task<ActionResult<User>> GetEnergyMatches(int energyLevelId)
     {
       var db = new DatabaseContext();
-      var matchResults = db.Users.Include(i => i.EnergyLevel).Where(w => w.EnergyLevelId == id);
-      var rv = new UserItem
-      {
-
-      };
-      return Ok(rv);
+      var matchResults = db.Users.Where(w => w.EnergyLevelId == energyLevelId);
+      return Ok(matchResults);
     }
 
   }
